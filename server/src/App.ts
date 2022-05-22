@@ -10,6 +10,7 @@ import {
   name,
   license,
 } from "../package.json";
+import DatabaseClient from "./database/DatabaseClient";
 export default class App {
   /**
    *
@@ -18,9 +19,10 @@ export default class App {
   private port: number;
   constructor(port: number) {
     config();
+    DatabaseClient.getInstance();
     this.port = port;
     this.server = express();
-    // this.middlewares();
+    this.middlewares();
     this.routes();
   }
   private middlewares() {
