@@ -30,21 +30,24 @@ export default class App {
     this.server.use(cors({ origin: "*" }));
   }
   private routes() {
-    this.server.get("/", (req: Request, res: Response, next: NextFunction) => {
-      return res.json({
-        name,
-        version,
-        description,
-        author,
-        license,
-        repository,
-      });
-    });
+    this.server.get(
+      "/",
+      async (req: Request, res: Response, next: NextFunction) => {
+        return res.json({
+          name,
+          version,
+          description,
+          author,
+          license,
+          repository,
+        });
+      }
+    );
   }
   run() {
     this.server.listen(this.port, () =>
       console.log(
-        `⚡️[server]: Server is running at https://localhost:${this.port}`
+        `⚡️[server]: Server is running at http://localhost:${this.port}`
       )
     );
   }

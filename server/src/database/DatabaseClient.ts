@@ -1,30 +1,28 @@
 import knex, { Knex } from "knex";
+import db from "../Config/db";
+import IDatabaseConnection from "../interfaces/IDatabaseConnections";
 export default class DatabaseClient {
   private static _instance: DatabaseClient;
-  private connection: Knex;
-  private constructor() {
-    this.connection = knex({
-      client: process.env.DB_CLIENT,
-      connection: {
-        host: process.env.DB_HOST,
-        port: parseInt(process.env.DB_PORT || ""),
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-      },
-    });
+  public connection: Knex;
+  private constructor(connection: IDatabaseConnection) {
+
+    this.connection = knex(connection);
     this.connection
       .select(1)
-      .then(() => console.log("[Server] Database Connected"))
-      .catch((e) => console.error("[Server] Failed to connect to database"));
+      .then(() => console.log("⚡️[server]: Database Connected"))
+      .catch((e) =>
+        console.error("⚡️[server]: Failed to connect to database")
+      );
   }
 
-  static getInstance() {
+  static getInstance(
+    connection: IDatabaseConnection = db.default
+  ): DatabaseClient {
     if (this._instance) {
       return this._instance;
     }
 
-    this._instance = new DatabaseClient();
+    this._instance = new DatabaseClient(connection);
     return this._instance;
   }
 }
