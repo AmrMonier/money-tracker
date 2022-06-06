@@ -5,9 +5,9 @@ name: Build Check
 
 on:
   push:
-    branches: [ "master", "development" ]
+    branches: [ "master", "develop" ]
   pull_request:
-    branches: [ "master", "development" ]
+    branches: [ "master", "develop" ]
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [ 16.x, 18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -27,6 +27,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: installing dependencies 
-      run: npm ci
+      run: npm i
     - name: running build script
       run: npm run build 
